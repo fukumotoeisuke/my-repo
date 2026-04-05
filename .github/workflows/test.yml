@@ -1,14 +1,21 @@
 name: Test
 on:
-    pull_request:
-        paths: 
-            - 'go/**/*/go'
+  pull_request:
+    paths:
+      - 'go/**/*.go'
+
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-go@v5
-              with:
-                go-version: '1.22'
-            - run: go test ./excellent/*.go
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go  # ← go.mod がここにあるので必須
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - run: go test ./excellent
